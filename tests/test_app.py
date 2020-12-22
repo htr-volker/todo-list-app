@@ -4,12 +4,13 @@ from flask_testing import TestCase
 
 from application import app, db
 from application.models import Tasks
+from os import getenv
 
 class TestBase(TestCase):
     def create_app(self):
         app.config.update(
-            SQLALCHEMY_DATABASE_URI="sqlite:///",
-            WTF_CSRF_ENABLED=False, 
+            SQLALCHEMY_DATABASE_URI=getenv("TEST_DATABASE_URI"),
+            WTF_CSRF_ENABLED=False,
             DEBUG=True
         )
         return app
