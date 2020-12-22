@@ -6,3 +6,4 @@ class Tasks(db.Model):
     description = db.Column(db.String(50), nullable=False)
     completed = db.Column(db.Boolean, nullable=False, default=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    

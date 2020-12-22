@@ -7,7 +7,6 @@ from flask import render_template, request, redirect, url_for
 @app.route("/home")
 def home():
     all_tasks = Tasks.query.all()
-    output = ""
     return render_template("index.html", title="Home", all_tasks=all_tasks)
 
 @app.route("/create", methods=["GET","POST"])
@@ -26,14 +25,14 @@ def complete(id):
     task = Tasks.query.filter_by(id=id).first()
     task.completed = True
     db.session.commit()
-    return f"Task {id} is now complete"
+    return redirect(url_for("home"))
 
 @app.route("/incomplete/<int:id>")
 def incomplete(id):
     task = Tasks.query.filter_by(id=id).first()
     task.completed = False
     db.session.commit()
-    return f"Task {id} is now incomplete"
+    return redirect(url_for("home"))
 
 @app.route("/update/<int:id>", methods=["GET", "POST"])
 def update(id):
@@ -43,16 +42,11 @@ def update(id):
         task.description = form.description.data
         db.session.commit()
         return redirect(url_for("home"))
-
     return render_template("update.html", form=form, title="Update Task", task=task)
 
-@app.route("/delete/<int:id>", methods=["GET", "POST"])
+@app.route("/delete/<int:id>")
 def delete(id):
     task = Tasks.query.filter_by(id=id).first()
     db.session.delete(task)
     db.session.commit()
     return redirect(url_for("home"))
-
-@app.route("/layout")
-def layout():
-    return render_template("layout.html")
