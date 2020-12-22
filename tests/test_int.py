@@ -9,8 +9,6 @@ from selenium.webdriver.chrome.options import Options
 from application import app, db
 from application.models import Tasks
 
-description = "Teach integration testing"
-
 class TestBase(LiveServerTestCase):
 
     def create_app(self):
@@ -24,7 +22,7 @@ class TestBase(LiveServerTestCase):
         chrome_options = Options()
         chrome_options.binary_location = "/usr/bin/chromium-browser"
         chrome_options.add_argument("--headless")
-        self.driver = webdriver.Chrome(executable_path="/home/Harry/chromedriver", chrome_options=chrome_options)
+        self.driver = webdriver.Chrome(executable_path="/home/jenkins/chromedriver/chromedriver", chrome_options=chrome_options)
         self.driver.get("http://localhost:5000")
         db.session.commit()
         db.drop_all()
@@ -38,25 +36,16 @@ class TestBase(LiveServerTestCase):
         response = urlopen("http://localhost:5000")
         self.assertEqual(response.code, 200)
 
-class TestRegistration(TestBase):
+class TestCreateTask(TestBase):
 
-    def test_registration(self):
-        """
-        Test that a user can create an account using the registration form
-        if all fields are filled out correctly, and that they will be 
-        redirected to the login page
-        """
-
-        # Click register menu link
+    def test_create_task(self):
         self.driver.find_element_by_xpath("/html/body/a[2]").click()
         time.sleep(1)
 
-        # Fill in registration form
-        self.driver.find_element_by_xpath('//*[@id="description"]').send_keys(description)
+        self.driver.find_element_by_xpath('//*[@id="description"]').send_keys("Teach integration testing")
         self.driver.find_element_by_xpath('//*[@id="submit"]').click()
         time.sleep(1)
 
-        # Assert that browser redirects to login page
         assert url_for('home') in self.driver.current_url
 
 if __name__ == '__main__':
