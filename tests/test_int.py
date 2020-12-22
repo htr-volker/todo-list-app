@@ -23,7 +23,7 @@ class TestBase(LiveServerTestCase):
         chrome_options.binary_location = "/usr/bin/chromium-browser"
         chrome_options.add_argument("--headless")
         self.driver = webdriver.Chrome(executable_path="/home/jenkins/chromedriver/chromedriver", chrome_options=chrome_options)
-        self.driver.get("http://localhost:5000")
+        self.driver.get("http://localhost:5001")
         db.session.commit()
         db.drop_all()
         db.create_all()
@@ -33,7 +33,7 @@ class TestBase(LiveServerTestCase):
         print("--------------------------END-OF-TEST----------------------------------------------\n\n\n-------------------------UNIT-AND-SELENIUM-TESTS----------------------------------------------")
 
     def test_server_is_up_and_running(self):
-        response = urlopen("http://localhost:5000")
+        response = urlopen("http://localhost:5001")
         self.assertEqual(response.code, 200)
 
 class TestCreateTask(TestBase):
