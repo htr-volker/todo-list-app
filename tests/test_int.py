@@ -8,12 +8,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from application import app, db
 from application.models import Tasks
+from os import getenv
 
 class TestBase(LiveServerTestCase):
-
     def create_app(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///data.db"
-        app.config['SECRET_KEY'] = "aodjiwjdoiwja"
+        app.config['SQLALCHEMY_DATABASE_URI'] = getenv("TEST_DATABASE_URI")
+        app.config['SECRET_KEY'] = getenv("TEST_SECRET_KEY")
         app.config['LIVESERVER_PORT'] = 5001
         return app
 
@@ -38,7 +38,6 @@ class TestBase(LiveServerTestCase):
         self.assertEqual(response.code, 200)
 
 class TestCreateTask(TestBase):
-
     def test_create_task(self):
         self.driver.find_element_by_xpath("/html/body/a[2]").click()
         time.sleep(1)
