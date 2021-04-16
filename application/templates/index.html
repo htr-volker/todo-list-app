@@ -4,9 +4,11 @@
 <h2>Incomplete Tasks</h2>
 {% for task in all_tasks %}
     {% if task.completed == False %}
-        {{ task.description }}
+        <b>Assigned to:</b> {{ task.assignee.forename }} {{ task.assignee.surname }}
         <br>
-        {{ task.date_created }}
+        <b>Description:</b> {{ task.description }}
+        <br>
+        <b>Created:</b> <em>{{ task.date_created }}</em>
         <br>
         <form action="{{ url_for('update', id=task.id) }}">
             <input type=submit value="Update">
@@ -25,9 +27,11 @@
 <h2>Complete Tasks</h2>
 {% for task in all_tasks %}
     {% if task.completed == True %}
-        {{ task.description }}
+        <b>Assigned to:</b> {{ task.assignee.forename }} {{ task.assignee.surname }}
         <br>
-        {{ task.date_created }}
+        <b>Description:</b> {{ task.description }}
+        <br>
+        <b>Created:</b> <em>{{ task.date_created }}</em>
         <br>
         <form action="{{ url_for('update', id=task.id) }}">
             <input type=submit value="Update">

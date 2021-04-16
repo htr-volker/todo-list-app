@@ -3,7 +3,10 @@
 <br><br>
 <form action='' method='POST'>
     {{ form.hidden_tag() }}
-    {{ form.description.label }} {{ form.description }} <br>
+    <b>{{ form.assignee.label }}:</b> {{ form.assignee }} 
+    <br>
+    <b>{{ form.description.label }}:</b> {{ form.description }}
+    <br>
     {{ form.submit }}
 </form>
 
